@@ -14,6 +14,12 @@ jobs:
       - run:
           command: python ./chatbot_test.py
           name: Chatbot Test
+      - run:
+          command: python ./split_test.py 
+          name: Python's Split Library Test
+      - run: 
+          command: python ./hw13_test.py
+          name: Hw13 Test
 
 workflows:
   main:
