@@ -33,11 +33,44 @@ class ChatbotTestCase(unittest.TestCase):
                     KEY_MESSAGE: "!about me",
                 }
             },
-            # TODO HW13 - add another
+            
+            {   # TODO HW13 - add another:
+                KEY_INPUT: "!!funtranslate i'm a little sleepy",
+                KEY_EXPECTED: {
+                    KEY_IS_BOT: True,
+                    KEY_BOT_COMMAND: "funtranslate",
+                    KEY_MESSAGE: "i'm a little sleepy",
+                }
+            }
         ]
         
         self.failure_test_params = [
             # TODO HW13
+             {
+                KEY_INPUT: "!!help",
+                KEY_EXPECTED: {
+                    KEY_IS_BOT: False,
+                    KEY_BOT_COMMAND: None,
+                    KEY_MESSAGE: "!!help",
+                }
+            },
+            {
+                KEY_INPUT: "!about me",
+                KEY_EXPECTED: {
+                    KEY_IS_BOT: True,
+                    KEY_BOT_COMMAND: "about me",
+                    KEY_MESSAGE: "",
+                }
+            },
+            
+            {  
+                KEY_INPUT: "!!funtranslate i'm a little sleepy",
+                KEY_EXPECTED: {
+                    KEY_IS_BOT: False,
+                    KEY_BOT_COMMAND: "random",
+                    KEY_MESSAGE: "",
+                }
+            }
         ]
 
 
@@ -46,18 +79,22 @@ class ChatbotTestCase(unittest.TestCase):
             response = chatbot.parse_message(test[KEY_INPUT])
             expected = test[KEY_EXPECTED]
             
-            self.assertEqual(response[KEY_IS_BOT], expected[KEY_IS_BOT])
-            self.assertEqual(response[KEY_BOT_COMMAND], expected[KEY_BOT_COMMAND])
-            self.assertEqual(response[KEY_MESSAGE], expected[KEY_MESSAGE])
+            #self.assertEqual(response[KEY_IS_BOT], expected[KEY_IS_BOT])
+            #self.assertEqual(response[KEY_BOT_COMMAND], expected[KEY_BOT_COMMAND])
+            #self.assertEqual(response[KEY_MESSAGE], expected[KEY_MESSAGE])
             # Alternatively (and preferably), you can do self.assertDictEqual(response, expected)
+            self.assertDictEqual(response, expected)
+            
             
     def test_parse_message_failure(self):
         for test in self.failure_test_params:
             response = chatbot.parse_message(test[KEY_INPUT])
             expected = test[KEY_EXPECTED]
             
-            # TODO add assertNotEqual cases here instead
-            self.assertEqual(True, False)
+            self.assertNotEqual(response[KEY_IS_BOT], expected[KEY_IS_BOT])
+            self.assertNotEqual(response[KEY_BOT_COMMAND], expected[KEY_BOT_COMMAND])
+            self.assertNotEqual(response[KEY_MESSAGE], expected[KEY_MESSAGE])
+            #self.assertEqual(True, False)
 
 if __name__ == '__main__':
     unittest.main()
